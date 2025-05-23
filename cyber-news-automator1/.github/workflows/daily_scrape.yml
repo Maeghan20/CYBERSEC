@@ -1,0 +1,46 @@
+name: Daily Cybersecurity Scraper
+on:
+  schedule:
+    - cron: '0 8 * * *'  # 8am UTC
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl
+
+      - name: Install Ollama
+        run: |
+          curl -fsSL https://ollama.com/install.sh | sudo sh
+          echo "Ollama path: $(which ollama)"
+          ollama --version
+
+      - name: Start Ollama service
+        run: |
+          nohup ollama serve > /dev/null 2>&1 &
+          sleep 20  # Allow service startup
+          ollama pull mistral
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install Python packages
+        run: |
+          pip install --upgrade pip
+          pip install feedparser==6.0.10 supabase python-dotenv requests
+
+      - name: Run scraper
+        run: python scrape_news.py
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}

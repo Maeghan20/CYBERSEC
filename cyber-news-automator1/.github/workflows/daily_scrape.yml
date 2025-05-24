@@ -1,7 +1,7 @@
 name: Daily Cybersecurity Scraper
 on:
   schedule:
-    - cron: '0 8 * * *'  # 8am UTC
+    - cron: '0 8 * * *'  
   workflow_dispatch:
 
 jobs:

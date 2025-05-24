@@ -1,0 +1,14 @@
+services:
+  - type: worker          # since scraper might be a background job, not web
+    name: cyber-news-scraper
+    env: python
+    region: singapore
+    plan: free
+    workingDirectory: .
+    buildCommand: pip install -r requirements.txt
+    startCommand: python scraper.py     # or however you run your scraper
+    envVars:
+      - key: SUPABASE_URL
+        value: https://oxtygtquuepqrtwsbnsr.supabase.co
+      - key: SUPABASE_KEY
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im94dHlndHF1dWVwcXJ0d3NibnNyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NTMzNTczOSwiZXhwIjoyMDYwOTExNzM5fQ.L1M4_9DYy9hDRjDGly7vYTxVa8JB-TYbJ2dxNnRqSIw

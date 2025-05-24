@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: cyber-news-ui
+    env: python             # or node if React/Node app
+    region: singapore
+    plan: free
+    workingDirectory: .     # root of the UI folder
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app    # or "npm start" for node
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SUPABASE_URL
+        value: https://oxtygtquuepqrtwsbnsr.supabase.co
+      - key: SUPABASE_KEY
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im94dHlndHF1dWVwcXJ0d3NibnNyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NTMzNTczOSwiZXhwIjoyMDYwOTExNzM5fQ.L1M4_9DYy9hDRjDGly7vYTxVa8JB-TYbJ2dxNnRqSIw
+      - key: UNSPLASH_ACCESS_KEY
+        value: 5EeSGw-E2AviKr18pogij2gBjUFWZM-H1_HKiopOK7Q
